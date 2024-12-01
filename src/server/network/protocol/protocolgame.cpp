@@ -483,7 +483,6 @@ void ProtocolGame::release() {
 }
 
 void ProtocolGame::login(const std::string &name, uint32_t accountId, OperatingSystem_t operatingSystem) {
-	g_logger().warn("ProtocolGame login");
 	// OTCV8 features
 	if (otclientV8 > 0) {
 		sendFeatures();
@@ -716,7 +715,6 @@ void ProtocolGame::logout(bool displayEffect, bool forced) {
 }
 
 void ProtocolGame::onRecvFirstMessage(NetworkMessage &msg) {
-	g_logger().warn("ProtocolGame onRecvFirstMessage");
 	if (g_game().getGameState() == GAME_STATE_SHUTDOWN) {
 		disconnect();
 		return;
@@ -926,7 +924,6 @@ void ProtocolGame::writeToOutputBuffer(NetworkMessage &msg) {
 }
 
 void ProtocolGame::parsePacket(NetworkMessage &msg) {
-	g_logger().warn("ProtocolGame parsePacket");
 	if (!acceptPackets || g_game().getGameState() == GAME_STATE_SHUTDOWN || msg.getLength() <= 0) {
 		return;
 	}
