@@ -6783,13 +6783,15 @@ bool Game::combatBlockHit(CombatDamage &damage, const std::shared_ptr<Creature> 
 		double baseFrac = rawBasePct / 10000.0;
 		double rawAmpPct = std::min(targetPlayer->getAmplifiedChance(), 100.0);
 		double ampFrac = rawAmpPct / 100.0;
-		
+
 		double finalFrac = baseFrac * (1.0 + ampFrac);
-		if (finalFrac > 1.0) finalFrac = 1.0;
-	
+		if (finalFrac > 1.0) {
+			finalFrac = 1.0;
+		}
+
 		auto threshold = static_cast<int>(finalFrac * 10000.0 + 0.5);
 		int roll = uniform_random(0, 10000);
-	
+
 		if (threshold > 0 && roll < threshold) {
 			InternalGame::sendBlockEffect(BLOCK_DODGE, damage.primary.type, target->getPosition(), attacker);
 			targetPlayer->sendTextMessage(MESSAGE_ATTENTION, "You dodged an attack.");

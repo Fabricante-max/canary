@@ -9003,13 +9003,15 @@ void Player::triggerTranscendance() {
 
 	double chance = item->getTranscendenceChance();
 	double rawAmp = getAmplifiedChance();
-	if (rawAmp > 100.0) rawAmp = 100.0;
+	if (rawAmp > 100.0) {
+		rawAmp = 100.0;
+	}
 	double amplification = rawAmp / 100.0;
 	chance *= (1.0 + amplification);
 
 	double randomChance = uniform_random(0, 10000) / 100.0;
 
-	if (getZoneType() != ZONE_PROTECTION && checkLastAggressiveActionWithin(2000) && ((OTSYS_TIME() / 1000) % 2) == 0 && chance > 0.0 && randomChance < chance){
+	if (getZoneType() != ZONE_PROTECTION && checkLastAggressiveActionWithin(2000) && ((OTSYS_TIME() / 1000) % 2) == 0 && chance > 0.0 && randomChance < chance) {
 		int64_t duration = g_configManager().getNumber(TRANSCENDANCE_AVATAR_DURATION);
 		const auto &outfitCondition = Condition::createCondition(CONDITIONID_COMBAT, CONDITION_OUTFIT, duration, 0)->static_self_cast<ConditionOutfit>();
 		Outfit_t outfit;
@@ -10777,11 +10779,11 @@ AcceptTransferErrorMessage Player::canAcceptTransferHouse(uint32_t houseId) {
 }
 
 double Player::getAmplifiedChance() const {
-    double amplificationChance = 0.0;
+	double amplificationChance = 0.0;
 
-    if (auto boots = getInventoryItem(CONST_SLOT_FEET); boots && boots->getTier() > 0) {
-        amplificationChance += boots->getAmplificationChance();
-    }
-	
+	if (auto boots = getInventoryItem(CONST_SLOT_FEET); boots && boots->getTier() > 0) {
+		amplificationChance += boots->getAmplificationChance();
+	}
+
 	return std::clamp(amplificationChance, 0.0, 100.0);
 }

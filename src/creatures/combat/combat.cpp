@@ -2274,7 +2274,9 @@ void Combat::applyExtensions(const std::shared_ptr<Creature> &caster, const std:
 		canApplyCritical = (baseChance != 0 && uniform_random(1, 10000) <= baseChance);
 
 		auto rawAmp = static_cast<double>(player->getAmplifiedChance());
-		if (rawAmp > 100.0) rawAmp = 100.0;
+		if (rawAmp > 100.0) {
+			rawAmp = 100.0;
+		}
 		double amplification = rawAmp / 100.0;
 
 		bool canApplyFatal = false;
